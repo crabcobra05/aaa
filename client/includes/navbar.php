@@ -1,22 +1,26 @@
-<nav class="navbar navbar-expand-lg navbar-dark p-4" style="background-color: #008080;">
-  <a class="navbar-brand" href="#">Client Side</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="index.php">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="gigs_posted.php">Gigs Posted</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="all_proposals.php">All Proposals</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="core/handleForms.php?logoutUserBtn=1">Logout</a>
-      </li>
-    </ul>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
+  <div class="container">
+    <a class="navbar-brand font-weight-bold" href="#">
+      Client Dashboard
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link px-3" href="index.php">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3" href="gigs_posted.php">My Gigs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3" href="all_proposals.php">Proposals</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-3" href="core/handleForms.php?logoutUserBtn=1">Sign Out</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>

@@ -1,7 +1,14 @@
-<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-<script>
-$( "#tabs" ).tabs();
-</script>
-<!-- Optional JavaScript; choose one of the two! -->
-<!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<footer class="bg-white py-4 mt-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-left">
+        <p class="mb-0 text-muted">&copy; 2025 Upwork Clone. All rights reserved.</p>
+      </div>
+      <div class="col-md-6 text-center text-md-right">
+        <p class="mb-0 text-muted">Made with ❤️ by the team</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
