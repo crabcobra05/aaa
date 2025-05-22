@@ -34,12 +34,9 @@ function getAllProposalsForClient($pdo, $client_id) {
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <style>
       :root {
@@ -49,94 +46,156 @@ function getAllProposalsForClient($pdo, $client_id) {
         --light-bg: #f8f9fa;
         --text-primary: #212529;
         --text-secondary: #6c757d;
+        --success: #2ecc71;
+        --danger: #e74c3c;
+        --warning: #f1c40f;
       }
       
       body {
-        font-family: "Arial", sans-serif;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
         background-color: var(--light-bg);
+        color: var(--text-primary);
       }
       
       .proposal-card {
-        transition: all 0.3s ease;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         height: 100%;
-        border-radius: 8px;
-        border-left: 4px solid var(--secondary-color);
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,0.1);
         background-color: white;
+        position: relative;
+        overflow: hidden;
       }
       
       .proposal-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+      }
+      
+      .card-body {
+        padding: 1.5rem;
       }
       
       .card-footer {
         background-color: white;
-        border-top: none;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        padding: 1rem 1.5rem;
       }
       
       .card-title {
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.75rem;
         font-size: 1.25rem;
         color: var(--primary-color);
+        line-height: 1.3;
       }
       
       .proposal-date {
-        font-size: 0.8rem;
+        font-size: 0.875rem;
         color: var(--text-secondary);
         font-style: italic;
+        margin-bottom: 1rem;
       }
       
       .gig-title {
         font-size: 1rem;
         color: var(--text-primary);
         font-weight: 600;
-        margin-bottom: 0.75rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
       }
       
       .card-text {
         color: var(--text-primary);
-        line-height: 1.5;
-        margin-bottom: 1rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+        font-size: 0.95rem;
       }
       
       .btn-primary {
         background-color: var(--accent-color);
         border-color: var(--accent-color);
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
       }
       
       .btn-primary:hover {
         background-color: #d35400;
         border-color: #d35400;
+        transform: translateY(-1px);
       }
       
       .category-indicator {
         display: inline-block;
-        width: 12px;
-        height: 12px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         margin-right: 8px;
       }
       
       .new-tag {
-        background-color: #2ecc71;
+        background-color: var(--success);
         color: white;
-        font-size: 0.7rem;
-        padding: 2px 6px;
-        border-radius: 4px;
+        font-size: 0.75rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 1rem;
+        right: 1rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 4px rgba(46, 204, 113, 0.2);
+      }
+
+      .proposal-meta {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+      }
+
+      .proposal-meta > * + * {
+        margin-left: 1rem;
+        padding-left: 1rem;
+        border-left: 1px solid rgba(0,0,0,0.1);
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 0.5rem;
+        text-align: center;
+      }
+
+      .section-subtitle {
+        font-size: 1.125rem;
+        color: var(--text-secondary);
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      @media (max-width: 768px) {
+        .section-title {
+          font-size: 2rem;
+        }
+        
+        .section-subtitle {
+          font-size: 1rem;
+        }
       }
     </style>
   </head>
   <body>
     <?php include 'includes/navbar.php'; ?>
-    <div class="container-fluid py-4">
+    <div class="container-fluid py-5">
       <div class="row justify-content-center">
         <div class="col-12">
-          <h1 class="display-4 text-center mb-4">All Proposals</h1>
-          <p class="lead text-center mb-5">Below are all the proposals submitted for your gigs.</p>
+          <h1 class="section-title">All Proposals</h1>
+          <p class="section-subtitle">Review and manage proposals submitted for your gigs</p>
         </div>
       </div>
 
@@ -147,32 +206,27 @@ function getAllProposalsForClient($pdo, $client_id) {
           foreach ($allProposals as $proposal) { 
         ?>
           <div class="col-md-4 col-lg-3 mb-4">
-            <div class="card shadow proposal-card" data-id="<?php echo $proposal['gig_id']; ?>">
+            <div class="card proposal-card" data-id="<?php echo $proposal['gig_id']; ?>">
               <?php 
-                // Check if proposal is less than 3 days old
                 $proposalDate = new DateTime($proposal['date_added']);
                 $currentDate = new DateTime();
                 $daysDiff = $currentDate->diff($proposalDate)->days;
                 
-                // Determine category color based on gig title
                 $categoryColors = [
-                  'Website' => '#3498db', // Blue
-                  'Logo' => '#9b59b6',    // Purple
-                  'Mobile' => '#2ecc71',  // Green
-                  'Content' => '#f1c40f', // Yellow
-                  'Digital' => '#e74c3c'  // Red
+                  'Website' => '#3498db',
+                  'Logo' => '#9b59b6',
+                  'Mobile' => '#2ecc71',
+                  'Content' => '#f1c40f',
+                  'Digital' => '#e74c3c'
                 ];
                 
-                $categoryColor = '#3498db'; // Default blue
+                $categoryColor = '#3498db';
                 foreach ($categoryColors as $keyword => $color) {
                   if (stripos($proposal['gig_title'], $keyword) !== false) {
                     $categoryColor = $color;
                     break;
                   }
                 }
-                
-                // Set border color based on category
-                echo '<style>.proposal-card[data-id="'.$proposal['gig_id'].'"] { border-left-color: '.$categoryColor.'; }</style>';
               ?>
               
               <?php if ($daysDiff < 3): ?>
@@ -181,15 +235,22 @@ function getAllProposalsForClient($pdo, $client_id) {
               
               <div class="card-body">
                 <h5 class="card-title"><?php echo $proposal['first_name'] . ' ' . $proposal['last_name']; ?></h5>
-                <p class="gig-title mb-2">
+                
+                <div class="proposal-meta">
+                  <span><?php echo date('M j, Y', strtotime($proposal['date_added'])); ?></span>
+                  <span><?php echo $daysDiff == 0 ? 'Today' : ($daysDiff == 1 ? 'Yesterday' : $daysDiff . ' days ago'); ?></span>
+                </div>
+
+                <p class="gig-title">
                   <span class="category-indicator" style="background-color: <?php echo $categoryColor; ?>"></span>
                   <?php echo $proposal['gig_title']; ?>
                 </p>
-                <p class="card-text"><?php echo (strlen($proposal['description']) > 100) ? substr($proposal['description'], 0, 100) . '...' : $proposal['description']; ?></p>
-                <p class="proposal-date mb-3">Submitted: <?php echo date('F j, Y', strtotime($proposal['date_added'])); ?></p>
+                
+                <p class="card-text"><?php echo (strlen($proposal['description']) > 150) ? substr($proposal['description'], 0, 150) . '...' : $proposal['description']; ?></p>
               </div>
-              <div class="card-footer text-right">
-                <a href="get_gig_proposals.php?gig_id=<?php echo $proposal['gig_id']; ?>" class="btn btn-primary">View Details</a>
+              
+              <div class="card-footer">
+                <a href="get_gig_proposals.php?gig_id=<?php echo $proposal['gig_id']; ?>" class="btn btn-primary btn-block">View Details</a>
               </div>
             </div>
           </div>
@@ -199,7 +260,8 @@ function getAllProposalsForClient($pdo, $client_id) {
         ?>
           <div class="col-12 text-center">
             <div class="alert alert-info" role="alert">
-              No proposals have been submitted for your gigs yet.
+              <h4 class="alert-heading mb-3">No Proposals Yet</h4>
+              <p class="mb-0">When freelancers submit proposals for your gigs, they'll appear here.</p>
             </div>
           </div>
         <?php } ?>

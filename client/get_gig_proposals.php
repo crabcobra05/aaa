@@ -11,16 +11,12 @@ if ($_SESSION['is_client'] == 0) {
 }
 ?>
 
-
 <!doctype html>
 <html lang="en">
   <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
     <style>
       :root {
@@ -36,89 +32,170 @@ if ($_SESSION['is_client'] == 0) {
       }
       
       body {
-        font-family: "Arial", sans-serif;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
         background-color: var(--light-bg);
+        color: var(--text-primary);
+      }
+
+      .card {
+        border-radius: 12px;
+        border: 1px solid rgba(0,0,0,0.1);
       }
       
-      .btn-primary {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
+      .card-header {
+        background-color: white;
+        border-bottom: 1px solid rgba(0,0,0,0.1);
+        padding: 1.5rem;
       }
-      
-      .btn-primary:hover {
-        background-color: #d35400;
-        border-color: #d35400;
+
+      .card-header h4 {
+        margin: 0;
+        color: var(--primary-color);
+        font-weight: 600;
       }
-      
+
+      .card-body {
+        padding: 1.5rem;
+      }
+
       .timeline-container {
-        height: 60px;
+        height: 80px;
         position: relative;
         background-color: #f8f9fa;
-        overflow: hidden;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
       }
       
       .timeline-event {
         position: absolute;
-        height: 20px;
-        top: 20px;
+        height: 24px;
+        top: 28px;
         border-radius: 4px;
         color: white;
-        font-size: 10px;
-        padding: 2px 4px;
+        font-size: 0.75rem;
+        padding: 4px 8px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       }
-      
+
+      .form-group label {
+        font-weight: 500;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+
+      .form-control {
+        border-radius: 6px;
+        border: 1px solid rgba(0,0,0,0.2);
+        padding: 0.625rem 1rem;
+        font-size: 0.95rem;
+      }
+
+      .form-control:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      }
+
       .is-invalid {
         border-color: var(--danger);
       }
-      
+
       .invalid-feedback {
-        display: none;
         color: var(--danger);
         font-size: 0.875rem;
+        margin-top: 0.375rem;
+      }
+
+      .btn-primary {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+        padding: 0.625rem 1.25rem;
+        font-weight: 500;
+        border-radius: 6px;
+      }
+
+      .btn-primary:hover {
+        background-color: #d35400;
+        border-color: #d35400;
+      }
+
+      .table {
+        margin-bottom: 0;
+      }
+
+      .table th {
+        border-top: none;
+        font-weight: 600;
+        color: var(--text-primary);
+      }
+
+      .table td {
+        vertical-align: middle;
+      }
+
+      .text-success {
+        color: var(--success) !important;
+      }
+
+      .text-danger {
+        color: var(--danger) !important;
+      }
+
+      .section-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+        margin-bottom: 2rem;
+        text-align: center;
       }
     </style>
   </head>
   <body>
     <?php include 'includes/navbar.php'; ?>
-    <div class="container-fluid">
-      <div class="display-4 text-center">Gig Proposals. Double click to add interview</div>
+    <div class="container-fluid py-5">
+      <h1 class="section-title">Gig Proposals</h1>
       <div class="row justify-content-center">
         <?php $getGigById = getGigById($pdo, $_GET['gig_id']); ?>
         <div class="col-md-5">
-          <div class="card shadow mt-4 p-4">
-            <div class="card-header"><h4><?php echo $getGigById['gig_title']; ?> </h4></div>
+          <div class="card shadow mb-4">
+            <div class="card-header">
+              <h4><?php echo $getGigById['gig_title']; ?></h4>
+            </div>
             <div class="card-body">
-              <p><?php echo $getGigById['gig_description']; ?></p>
-              <p><i><?php echo $getGigById['date_added']; ?></i></p>
-              <p><i><?php echo $_SESSION['username']; ?></i></p>
+              <p class="mb-4"><?php echo $getGigById['gig_description']; ?></p>
+              <div class="text-muted">
+                <small>Posted: <?php echo date('F j, Y', strtotime($getGigById['date_added'])); ?></small>
+                <br>
+                <small>By: <?php echo $_SESSION['username']; ?></small>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-md-7">
-          <div class="card shadow mt-4 p-4">
-            <div class="card-header"><h4>Interviews</h4></div>
+          <div class="card shadow">
+            <div class="card-header">
+              <h4>Scheduled Interviews</h4>
+            </div>
             <div class="card-body">
               <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">First Name</th>
-                    <th scope="col">Last Name</th>
-                    <th scope="col">Time Start</th>
-                    <th scope="col">Time End</th>
-                    <th scope="col">Status</th>
+                    <th>Freelancer</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Status</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php $getAllInterviewsByGig = getAllInterviewsByGig($pdo, $_GET['gig_id']); ?>
                   <?php foreach ($getAllInterviewsByGig as $row) { ?>
                   <tr>
-                    <td><?php echo $row['first_name']; ?></td>
-                    <td><?php echo $row['last_name']; ?></td>
-                    <td><?php echo $row['time_start']; ?></td>
-                    <td><?php echo $row['time_end']; ?></td>
+                    <td><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></td>
+                    <td><?php echo date('M j, Y g:i A', strtotime($row['time_start'])); ?></td>
+                    <td><?php echo date('M j, Y g:i A', strtotime($row['time_end'])); ?></td>
                     <td>
                       <?php 
                         if ($row['status'] == "Accepted") {
@@ -128,7 +205,7 @@ if ($_SESSION['is_client'] == 0) {
                           echo "<span class='text-danger'>Rejected</span>";
                         } 
                         if ($row['status'] == "Pending") {
-                          echo "Pending";
+                          echo "<span class='text-warning'>Pending</span>";
                         }
                       ?>  
                     </td>
@@ -141,41 +218,44 @@ if ($_SESSION['is_client'] == 0) {
         </div>
       </div>
     </div>
-    <div class="row justify-content-center p-4">
+    <div class="row justify-content-center px-4 pb-5">
       <?php $getProposalsByGigId = getProposalsByGigId($pdo, $_GET['gig_id']); ?>
       <?php foreach ($getProposalsByGigId as $row) { ?>
-      <div class="col-md-4 mt-4">
-        <div class="card shadow gigProposalContainer p-4">
+      <div class="col-md-4 mb-4">
+        <div class="card shadow gigProposalContainer">
           <div class="card-body">
-            <h2><?php echo $row['last_name'] . ", " . $row['first_name']; ?></h2>
-            <p><?php echo $row['description']; ?></p>
-            <p><i><?php echo $row['date_added']; ?></i></p>
+            <h2 class="h4 mb-3"><?php echo $row['first_name'] . ' ' . $row['last_name']; ?></h2>
+            <p class="mb-3"><?php echo $row['description']; ?></p>
+            <p class="text-muted mb-4"><small>Submitted: <?php echo date('F j, Y', strtotime($row['date_added'])); ?></small></p>
+            
             <form class="addNewInterviewForm d-none">
               <div class="form-group">
-                <label for="time_start">Time Start</label>
+                <label>Interview Start Time</label>
                 <input type="hidden" class="freelancer_id" value="<?php echo $row['user_id']; ?>">
                 <input type="hidden" class="gig_id" value="<?php echo $_GET['gig_id']; ?>">
                 <input type="datetime-local" class="time_start form-control">
                 <div class="invalid-feedback time-start-feedback"></div>
               </div>
               <div class="form-group">
-                <label for="time_end">Time End</label>
+                <label>Interview End Time</label>
                 <input type="datetime-local" class="time_end form-control">
                 <div class="invalid-feedback time-end-feedback"></div>
-                <input type="submit" class="btn btn-primary float-right mt-4">
               </div>
-              <div class="interview-timeline mt-3 mb-3 d-none">
-                <h6 class="text-muted">Scheduled Interviews:</h6>
-                <div class="timeline-container p-2 border rounded"></div>
+              
+              <div class="interview-timeline mt-4 mb-4 d-none">
+                <h6 class="text-muted mb-2">Scheduled Interviews</h6>
+                <div class="timeline-container"></div>
               </div>
+              
+              <button type="submit" class="btn btn-primary btn-block">Schedule Interview</button>
             </form>
           </div>
         </div>
       </div>
       <?php } ?>
     </div>
+    <?php include 'includes/footer.php'; ?>
     <script>
-      // Store all interviews for timeline visualization
       var allInterviews = [];
       
       <?php foreach ($getAllInterviewsByGig as $interview) { ?>
@@ -186,30 +266,26 @@ if ($_SESSION['is_client'] == 0) {
         });
       <?php } ?>
       
-      // When a proposal is double-clicked
-      $('.gigProposalContainer').on('dblclick', function (event) {
+      $('.gigProposalContainer').on('dblclick', function(event) {
         var addNewInterviewForm = $(this).find('.addNewInterviewForm');
         var timelineContainer = $(this).find('.interview-timeline');
         
         addNewInterviewForm.toggleClass('d-none');
         
-        // If showing the form, also show the timeline
         if (!addNewInterviewForm.hasClass('d-none')) {
           timelineContainer.removeClass('d-none');
           renderTimeline($(this).find('.timeline-container'));
         }
       });
       
-      // Function to render timeline visualization
       function renderTimeline(container) {
         container.empty();
         
         if (allInterviews.length === 0) {
-          container.html('<p class="text-muted small">No interviews scheduled yet.</p>');
+          container.html('<p class="text-muted small mb-0">No interviews scheduled yet</p>');
           return;
         }
         
-        // Find earliest and latest times for scale
         var earliestTime = new Date(allInterviews[0].start);
         var latestTime = new Date(allInterviews[0].end);
         
@@ -221,14 +297,12 @@ if ($_SESSION['is_client'] == 0) {
           if (endTime > latestTime) latestTime = endTime;
         });
         
-        // Add buffer
         earliestTime.setHours(earliestTime.getHours() - 1);
         latestTime.setHours(latestTime.getHours() + 1);
         
         var timeRange = latestTime - earliestTime;
         var containerWidth = container.width();
         
-        // Render each interview as a block on the timeline
         allInterviews.forEach(function(interview, index) {
           var startTime = new Date(interview.start);
           var endTime = new Date(interview.end);
@@ -248,99 +322,76 @@ if ($_SESSION['is_client'] == 0) {
         });
       }
       
-      // Real-time validation for date inputs
       $('.time_start').on('change', function() {
-        var startInput = $(this);
-        var endInput = $(this).closest('form').find('.time_end');
-        var startFeedback = $(this).siblings('.time-start-feedback');
+        validateDateTime($(this), 'start');
+      });
+      
+      $('.time_end').on('change', function() {
+        validateDateTime($(this), 'end');
+      });
+      
+      function validateDateTime(input, type) {
+        var form = input.closest('form');
+        var startInput = form.find('.time_start');
+        var endInput = form.find('.time_end');
+        var feedback = input.siblings('.invalid-feedback');
+        
+        input.removeClass('is-invalid');
+        feedback.hide();
+        
+        var selectedDate = new Date(input.val());
         var now = new Date();
-        var selectedDate = new Date(startInput.val());
         
-        // Reset validation state
-        startInput.removeClass('is-invalid');
-        startFeedback.hide();
-        
-        // Check if date is in the past
         if (selectedDate < now) {
-          startInput.addClass('is-invalid');
-          startFeedback.text('Cannot schedule an interview in the past!').show();
+          input.addClass('is-invalid');
+          feedback.text('Cannot schedule an interview in the past').show();
           return false;
         }
         
-        // Check for conflicts with existing interviews
+        if (type === 'end' && startInput.val()) {
+          var startDate = new Date(startInput.val());
+          if (selectedDate <= startDate) {
+            input.addClass('is-invalid');
+            feedback.text('End time must be after start time').show();
+            return false;
+          }
+        }
+        
         for (var i = 0; i < allInterviews.length; i++) {
           var interviewStart = new Date(allInterviews[i].start);
           var interviewEnd = new Date(allInterviews[i].end);
           
           if ((selectedDate >= interviewStart && selectedDate <= interviewEnd)) {
-            startInput.addClass('is-invalid');
-            startFeedback.text('This time conflicts with ' + allInterviews[i].name + '\'s interview').show();
-            return false;
-          }
-        }
-        
-        // If end time is already set, validate it against the new start time
-        if (endInput.val()) {
-          var endDate = new Date(endInput.val());
-          if (endDate <= selectedDate) {
-            endInput.addClass('is-invalid');
-            endInput.siblings('.time-end-feedback').text('End time must be after start time').show();
-          } else {
-            endInput.removeClass('is-invalid');
-            endInput.siblings('.time-end-feedback').hide();
-          }
-        }
-        
-        return true;
-      });
-      
-      $('.time_end').on('change', function() {
-        var endInput = $(this);
-        var startInput = $(this).closest('form').find('.time_start');
-        var endFeedback = $(this).siblings('.time-end-feedback');
-        var selectedEndDate = new Date(endInput.val());
-        var selectedStartDate = new Date(startInput.val());
-        
-        // Reset validation state
-        endInput.removeClass('is-invalid');
-        endFeedback.hide();
-        
-        // Check if end time is after start time
-        if (selectedEndDate <= selectedStartDate) {
-          endInput.addClass('is-invalid');
-          endFeedback.text('End time must be after start time').show();
-          return false;
-        }
-        
-        // Check for conflicts with existing interviews
-        for (var i = 0; i < allInterviews.length; i++) {
-          var interviewStart = new Date(allInterviews[i].start);
-          var interviewEnd = new Date(allInterviews[i].end);
-          
-          if ((selectedEndDate >= interviewStart && selectedEndDate <= interviewEnd)) {
-            endInput.addClass('is-invalid');
-            endFeedback.text('This time conflicts with ' + allInterviews[i].name + '\'s interview').show();
+            input.addClass('is-invalid');
+            feedback.text('This time conflicts with ' + allInterviews[i].name + '\'s interview').show();
             return false;
           }
         }
         
         return true;
-      });
+      }
 
-      // Form submission with inline validation
-      $('.addNewInterviewForm').on('submit', function (event) {
+      $('.addNewInterviewForm').on('submit', function(event) {
         event.preventDefault();
         var form = $(this);
         var startInput = form.find('.time_start');
         var endInput = form.find('.time_end');
-        var startFeedback = startInput.siblings('.time-start-feedback');
-        var endFeedback = endInput.siblings('.time-end-feedback');
         
-        // Reset validation states
-        startInput.removeClass('is-invalid');
-        endInput.removeClass('is-invalid');
-        startFeedback.hide();
-        endFeedback.hide();
+        if (!startInput.val() || !endInput.val()) {
+          if (!startInput.val()) {
+            startInput.addClass('is-invalid');
+            startInput.siblings('.invalid-feedback').text('Please select a start time').show();
+          }
+          if (!endInput.val()) {
+            endInput.addClass('is-invalid');
+            endInput.siblings('.invalid-feedback').text('Please select an end time').show();
+          }
+          return;
+        }
+        
+        if (!validateDateTime(startInput, 'start') || !validateDateTime(endInput, 'end')) {
+          return;
+        }
         
         var formData = {
           freelancer_id: form.find('.freelancer_id').val(),
@@ -349,74 +400,22 @@ if ($_SESSION['is_client'] == 0) {
           time_end: endInput.val(),
           insertNewGigInterview: 1
         };
-        
-        // Validate required fields
-        if (!formData.time_start || !formData.time_end) {
-          if (!formData.time_start) {
-            startInput.addClass('is-invalid');
-            startFeedback.text('Please select a start time').show();
-          }
-          if (!formData.time_end) {
-            endInput.addClass('is-invalid');
-            endFeedback.text('Please select an end time').show();
-          }
-          return;
-        }
-        
-        // Validate date is not in the past
-        var selectedStartDate = new Date(formData.time_start);
-        var now = new Date();
-        
-        if (selectedStartDate < now) {
-          startInput.addClass('is-invalid');
-          startFeedback.text('Cannot schedule an interview in the past!').show();
-          return;
-        }
-        
-        // Validate end time is after start time
-        var selectedEndDate = new Date(formData.time_end);
-        if (selectedEndDate <= selectedStartDate) {
-          endInput.addClass('is-invalid');
-          endFeedback.text('End time must be after start time').show();
-          return;
-        }
-        
-        // Check for conflicts
-        var hasConflict = false;
-        for (var i = 0; i < allInterviews.length; i++) {
-          var interviewStart = new Date(allInterviews[i].start);
-          var interviewEnd = new Date(allInterviews[i].end);
-          
-          if ((selectedStartDate >= interviewStart && selectedStartDate <= interviewEnd) || 
-              (selectedEndDate >= interviewStart && selectedEndDate <= interviewEnd) ||
-              (selectedStartDate <= interviewStart && selectedEndDate >= interviewEnd)) {
-            hasConflict = true;
-            startInput.addClass('is-invalid');
-            startFeedback.text('Time conflicts with ' + allInterviews[i].name + '\'s interview').show();
-            break;
-          }
-        }
-        
-        if (hasConflict) return;
 
-        // If validation passes, submit the form
         $.ajax({
           type: "POST",
           url: "core/handleForms.php",
           data: formData,
-          success: function (data) {
+          success: function(data) {
             if (data) {
               location.reload();
             } else {
-              // More specific error message
               var errorMsg = $('<div class="alert alert-danger mt-3"></div>')
-                .text("Could not schedule interview! Possible reasons: \n- You already scheduled this freelancer\n- There's a time conflict with another interview\n- The selected time is invalid");
+                .text("Could not schedule interview. Please check the selected times and try again.");
               form.prepend(errorMsg);
             }
           }
         });
       });
     </script>
-    <?php include 'includes/footer.php'; ?>
   </body>
 </html>
